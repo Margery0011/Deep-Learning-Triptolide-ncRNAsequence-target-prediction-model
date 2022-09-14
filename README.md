@@ -8,20 +8,12 @@
 
 # Pre-Preprocess
 
-"""
-one-hot Code 
-每个序列按列排列
-每列中每4行的数据为1个碱基的one-hot编码
-有100条序列故有100列
-最长为24个碱基故有24*4=96行
-不足补0
+- Each sequence is arranged in columns
+- Each 4th row of data in each column is a one-hot encoding of 1 base
+- There are 100 sequences so there are 100 columns
+- The longest is 24 bases, so there are 24*4=96 lines
+- Insufficient to make up 0
 
-Each sequence is arranged in columns
-Each 4th row of data in each column is a one-hot encoding of 1 base
-There are 100 sequences so there are 100 columns
-The longest is 24 bases, so there are 24*4=96 lines
-Insufficient to make up 0
-"""
 
 ## Import library
 

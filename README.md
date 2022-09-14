@@ -17,13 +17,16 @@
 
 ## Import library
 
+```
 import xlrd
 import numpy as np
 from shape_3d import *
 import scipy.io as scio
+```
 
 ## Import Excel Data 
 
+```
 book = xlrd.open_workbook('data.xls')
 sheet = book.sheets()[0]
 affinity = sheet.col_values(0)
@@ -31,9 +34,11 @@ seq = sheet.col_values(1)
 name = sheet.col_values(2)
 affi = np.zeros((1,len(affinity)))
 affi[0,:] = affinity
+```
 
 ## One- hot Transfer 
 
+```
 A_oh = [1,0,0,0]
 U_oh = [0,1,0,0]
 C_oh = [0,0,1,0]
@@ -67,3 +72,4 @@ scio.savemat('data100.mat',
              'one-hot sequence':seq_oh,
              '3D sequence':seq_3D})
 
+```

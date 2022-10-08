@@ -49,13 +49,13 @@ In this file, odd-numbered lines are names, even-numbered lines are sequences.
 
 - Take the maximum absolute value of the binding energy of triptolide and miRNA as the benchmark, and divide all the remaining data by this number to get normalization.
 
-- After normalization, it is found that the degree of association roughly conforms to the normal distribution, and the distribution of the data is relatively scattered.Therefore, we perforem data augmentation.
+- After normalization, it is found that the degree of affinity roughly conforms to the normal distribution, and the distribution of the data is relatively scattered.Therefore, we perforem data augmentation.
 
 ### 3. Data Augmentation
 
 - Enhance the data: after observation, it is found that the data above 0.75 or below 0.25 only accounts for about 5% of the overall data, 0.6-0.75 and 0.25-0.3 account for about 15%, and 0.4-0.6 accounts for 80%. According to the proportion, we repeatedly read the data with less binding degree, while the data of 0.4-0.6 is read only once, so that the distribution of the data becomes uniform, smooth and random.
 
-- After the enhancement, use `numpy random shuffle` to randomly shuffle the sequence, note that the name, sequence and degree of association are shuffled together
+- After the enhancement, use `numpy random shuffle` to randomly shuffle the sequence, note that the name, sequence and degree of affinity are shuffled together
 
 ### 4. Sequence Coding
 
@@ -74,7 +74,7 @@ In this file, odd-numbered lines are names, even-numbered lines are sequences.
 
 ### 3. Ternary Classification
 
-- We tried to divide the normalized associativity into three categories: high associativity after normalization of 0.6 or more; medium associativity between 0.4 and 0.6 after normalization; low associativity after normalization of less than 0.4.
+- We tried to divide the normalized affinity into three categories: high affinityafter normalization of 0.6 or more; medium affinity between 0.4 and 0.6 after normalization; low affinityafter normalization of less than 0.4.
 
 - Add the threshold judgment mode: 
 
@@ -108,7 +108,7 @@ In this file, odd-numbered lines are names, even-numbered lines are sequences.
 
 - Unidirectional RNN
 
-    - Which performs further calculations on the data associated with the LSTM layer. Although RNN may have problems such as gradient disappearance, LSTM is not used here and an additional layer of RNN is added because too many LSTM layers may reduce the fluctuation range of the prediction results and tend to be homogenized, that is, sequences with a large gap in combination degree. The predicted associativity may differ slightly, and such processing can improve efficiency. Only the last loop output, which is the eigenvalue of the associativity.
+    - Which performs further calculations on the data associated with the LSTM layer. Although RNN may have problems such as gradient disappearance, LSTM is not used here and an additional layer of RNN is added because too many LSTM layers may reduce the fluctuation range of the prediction results and tend to be homogenized, that is, sequences with a large gap in combination degree. The predicted affinity may differ slightly, and such processing can improve efficiency. Only the last loop output, which is the eigenvalue of the affinity.
 
 ### 4.The Remaining Layers
 
@@ -132,14 +132,14 @@ From the characteristics of the ROC curve, it can be seen that the larger the TP
 
 - We perform windowing on the Pirna sequence, the window length is 23, and the actual length after windowing is -23+1 sequences. Note that the same zero-padding processing for lengths less than 23.
 
-### (2) Rredict the associativity level for each window
+### (2) Predict the degree of affinity for each window
 
 - Then perform one-hot encoding on these sequences with lengths of 23 and add the previous model to predict, and obtain the binding degree of each window, [a, b, c]
 
 ### (3) Calculate the binding affinity of the whole sequence
 
-- For each window, we compute the associativity expectation based on the probability distribution properties:
-    - According to the boundary conditions, we should ensure that when the probability distribution is [0.5, 0.5, 0], the normalized associativity should be 0.6, when [0, 0.5, 0.5], the normalized associativity should be 0.4, [0 ,1,0] is 0.7, so it can be determined that the median value greater than 0.6 is 0.7, the median value in the middle is 0.5, and the median value is less than 0.3, so the theoretical expectation of the normalized degree of association after piecewise normalization is obtained: e = 0.7×a + 0.5×b + 0.3×c
+- For each window, we compute the affinity expectation based on the probability distribution properties:
+    - According to the boundary conditions, we should ensure that when the probability distribution is [0.5, 0.5, 0], the normalized affinityy should be 0.6, when [0, 0.5, 0.5], the normalized aaffinity should be 0.4, [0 ,1,0] is 0.7, so it can be determined that the median value greater than 0.6 is 0.7, the median value in the middle is 0.5, and the median value is less than 0.3, so the theoretical expectation of the normalized degree of association after piecewise normalization is obtained: e = 0.7×a + 0.5×b + 0.3×c
 
     - The expected maximum value is 0.7 and the minimum value is 0.3, and we want to expand it to 0 to 1
     - If the expectation keeps the original value p=e between 0.4 and 0.6, if it is greater than 0.6, the range of 0.6-0.7 needs to be expanded to between 0.6-1 
@@ -148,9 +148,9 @@ From the characteristics of the ROC curve, it can be seen that the larger the TP
 ### (4) Calculate the binding degree of the whole sequence
 
 
-For each window, we compute the associativity expectation based on the probability distribution properties:
-According to the boundary conditions, we should ensure that when the probability distribution is [0.5, 0.5, 0], the normalized associativity should be 0.6, when [0, 0.5, 0.5], the normalized associativity should be 0.4, [0 ,1,0] is 0.7, so it can be determined
-The median value greater than 0.6 is 0.7, the median value in the middle is 0.5, and the median value is less than 0.3, so the theoretical expectation of the normalized degree of association after piecewise normalization is obtained: e = 0.7×a + 0.5×b + 0.3×c
+For each window, we compute the affinity expectation based on the probability distribution properties:
+According to the boundary conditions, we should ensure that when the probability distribution is [0.5, 0.5, 0], the normalized affinity should be 0.6, when [0, 0.5, 0.5], the normalized affinity should be 0.4, [0 ,1,0] is 0.7, so it can be determined
+The median value greater than 0.6 is 0.7, the median value in the middle is 0.5, and the median value is less than 0.3, so the theoretical expectation of the normalized degree of affinity after piecewise normalization is obtained: e = 0.7×a + 0.5×b + 0.3×c
 The expected maximum value is 0.7 and the minimum value is 0.3, and we want to expand it to 0 to 1
 If the expectation keeps the original value p=e between 0.4 and 0.6, if it is greater than 0.6, the range of 0.6-0.7 needs to be expanded to between 0.6-1 according to the normalization principle. The formula is p= (1-0.6) (e -0.6)0.7-0.6+0.6; if between 0.4-0.3
 The formula is p= (0.4-0)(e-0.4)0.4-0.3+0.4.
@@ -159,7 +159,7 @@ The formula is p= (0.4-0)(e-0.4)0.4-0.3+0.4.
 
 ### (5) Synthesizing the expectations for each window
 
-- Calculate the average of the normalized degree of association between each window e=i=0n-1pi/n, and calculate the normalized degree of association according to the maximum and minimum values ​​recorded before: p = e*(max_affinity-min_affinity ) + min_affinity. 
+- Calculate the average of the normalized degree of affinity between each window e=i=0n-1pi/n, and calculate the normalized degree of affinityaccording to the maximum and minimum values ​​recorded before: p = e*(max_affinity-min_affinity ) + min_affinity. 
 
 - At the same time, statistically speaking, the longer the sequence, the greater the probability of binding and is proportional to the length, so p = p × the length of the pirna / the length of the window 23
 

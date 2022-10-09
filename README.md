@@ -20,7 +20,7 @@ Use the binding information of triptolide and microRNA to build and train a deep
 
 - Selected Human as the species and download nucleic acid sequence data from both datasets.
 
-- Rsults of docking between triptolide and microRNA were obtained from our [lab](https://life.buct.edu.cn/2019/1031/c709a5600/pagem.htm)
+- Results of docking between triptolide and microRNA were obtained from our [lab](https://life.buct.edu.cn/2019/1031/c709a5600/pagem.htm)
 
 ## Data Pre-Process
 
